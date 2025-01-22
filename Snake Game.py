@@ -4,6 +4,7 @@ Made with PyGame
 """
 
 import pygame, sys, time, random
+start_time = time.time()
 
 
 # Difficulty settings
@@ -74,16 +75,28 @@ def game_over():
     sys.exit()
 
 
-# Score
-def show_score(choice, color, font, size):
+# Score and Timer
+def show_score_and_timer(choice, color, font, size):
     score_font = pygame.font.SysFont(font, size)
+    
+    # Score display
     score_surface = score_font.render('Score : ' + str(score), True, color)
     score_rect = score_surface.get_rect()
+    
+    # Timer display
+    elapsed_time = int(time.time() - start_time)
+    time_surface = score_font.render('Time : ' + str(elapsed_time) + 's', True, color)
+    time_rect = time_surface.get_rect()
+
     if choice == 1:
         score_rect.midtop = (frame_size_x/10, 15)
+        time_rect.midtop = (frame_size_x/10, 40)  # Positioning the timer below the score
     else:
         score_rect.midtop = (frame_size_x/2, frame_size_y/1.25)
+        time_rect.midtop = (frame_size_x/2, frame_size_y/1.20)  # Positioning for the alternate score display
+        
     game_window.blit(score_surface, score_rect)
+    game_window.blit(time_surface, time_rect)
     # pygame.display.flip()
 
 
@@ -163,7 +176,7 @@ while True:
         if snake_pos[0] == block[0] and snake_pos[1] == block[1]:
             game_over()
 
-    show_score(1, white, 'consolas', 20)
+    show_score_and_timer(1, white, 'consolas', 20)
     # Refresh game screen
     pygame.display.update()
     # Refresh rate
