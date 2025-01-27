@@ -75,9 +75,9 @@ def game_over():
 
 
 # Score
-def show_score(choice, color, font, size):
+def show_score(choice, color, font, size, elapsed_time):
     score_font = pygame.font.SysFont(font, size)
-    score_surface = score_font.render('Score : ' + str(score), True, color)
+    score_surface = score_font.render('Score : ' + str(score) + ' Time : ' + str(elapsed_time) + 's', True, color)
     score_rect = score_surface.get_rect()
     if choice == 1:
         score_rect.midtop = (frame_size_x/10, 15)
@@ -88,7 +88,9 @@ def show_score(choice, color, font, size):
 
 
 # Main logic
+start_time = time.time()  # Initialize start time
 while True:
+    elapsed_time = int(time.time() - start_time)  # Calculate elapsed time
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -163,7 +165,7 @@ while True:
         if snake_pos[0] == block[0] and snake_pos[1] == block[1]:
             game_over()
 
-    show_score(1, white, 'consolas', 20)
+    show_score(1, white, 'consolas', 20, elapsed_time)
     # Refresh game screen
     pygame.display.update()
     # Refresh rate
