@@ -4,6 +4,7 @@ Made with PyGame
 """
 
 import pygame, sys, time, random
+import datetime
 
 
 # Difficulty settings
@@ -57,6 +58,7 @@ direction = 'RIGHT'
 change_to = direction
 
 score = 0
+start_time = datetime.datetime.now()
 
 
 # Game Over
@@ -75,9 +77,9 @@ def game_over():
 
 
 # Score
-def show_score(choice, color, font, size):
+def show_score(choice, color, font, size, elapsed_seconds):
     score_font = pygame.font.SysFont(font, size)
-    score_surface = score_font.render('Score : ' + str(score), True, color)
+    score_surface = score_font.render('Score : ' + str(score) + ' Time : ' + str(elapsed_seconds) + 's', True, color)
     score_rect = score_surface.get_rect()
     if choice == 1:
         score_rect.midtop = (frame_size_x/10, 15)
@@ -107,6 +109,10 @@ while True:
             # Esc -> Create event to quit the game
             if event.key == pygame.K_ESCAPE:
                 pygame.event.post(pygame.event.Event(pygame.QUIT))
+    
+    # Calculate elapsed time
+    elapsed_time = datetime.datetime.now() - start_time
+    elapsed_seconds = int(elapsed_time.total_seconds())
 
     # Making sure the snake cannot move in the opposite direction instantaneously
     if change_to == 'UP' and direction != 'DOWN':
@@ -163,7 +169,7 @@ while True:
         if snake_pos[0] == block[0] and snake_pos[1] == block[1]:
             game_over()
 
-    show_score(1, white, 'consolas', 20)
+    show_score(1, white, 'consolas', 20, elapsed_seconds)
     # Refresh game screen
     pygame.display.update()
     # Refresh rate
