@@ -4,6 +4,7 @@ Made with PyGame
 """
 
 import pygame, sys, time, random
+import datetime
 
 
 # Difficulty settings
@@ -68,6 +69,13 @@ def game_over():
     game_window.fill(black)
     game_window.blit(game_over_surface, game_over_rect)
     show_score(0, red, 'times', 20)
+    elapsed_time = datetime.datetime.now() - start_time
+    elapsed_seconds = int(elapsed_time.total_seconds())
+    time_surface = pygame.font.SysFont('times', 20).render(f'Time: {elapsed_seconds}s', True, red)
+    time_rect = time_surface.get_rect()
+    time_rect.midtop = (frame_size_x/2, frame_size_y/1.1)
+    game_window.blit(time_surface, time_rect)
+
     pygame.display.flip()
     time.sleep(3)
     pygame.quit()
@@ -88,6 +96,8 @@ def show_score(choice, color, font, size):
 
 
 # Main logic
+start_time = datetime.datetime.now()
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -162,6 +172,13 @@ while True:
     for block in snake_body[1:]:
         if snake_pos[0] == block[0] and snake_pos[1] == block[1]:
             game_over()
+
+    elapsed_time = datetime.datetime.now() - start_time
+    elapsed_seconds = int(elapsed_time.total_seconds())
+    time_surface = pygame.font.SysFont('consolas', 20).render(f'Time: {elapsed_seconds}s', True, white)
+    time_rect = time_surface.get_rect()
+    time_rect.midtop = (frame_size_x/2, 30)
+    game_window.blit(time_surface, time_rect)
 
     show_score(1, white, 'consolas', 20)
     # Refresh game screen
