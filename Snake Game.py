@@ -4,6 +4,7 @@ Made with PyGame
 """
 
 import pygame, sys, time, random
+import datetime
 
 
 # Difficulty settings
@@ -87,6 +88,16 @@ def show_score(choice, color, font, size):
     # pygame.display.flip()
 
 
+# Initialize start time
+start_time = datetime.datetime.now()
+
+def show_time(elapsed_seconds, color, font, size):
+    time_font = pygame.font.SysFont(font, size)
+    time_surface = time_font.render('Time : ' + str(elapsed_seconds) + 's', True, color)
+    time_rect = time_surface.get_rect()
+    time_rect.midtop = (frame_size_x/2, 15)
+    game_window.blit(time_surface, time_rect)
+
 # Main logic
 while True:
     for event in pygame.event.get():
@@ -163,7 +174,13 @@ while True:
         if snake_pos[0] == block[0] and snake_pos[1] == block[1]:
             game_over()
 
+    # Calculate elapsed time
+    elapsed_time = datetime.datetime.now() - start_time
+    elapsed_seconds = int(elapsed_time.total_seconds())
+
+    # Display score and time
     show_score(1, white, 'consolas', 20)
+    show_time(elapsed_seconds, white, 'consolas', 20)
     # Refresh game screen
     pygame.display.update()
     # Refresh rate
