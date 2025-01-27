@@ -88,7 +88,9 @@ def show_score(choice, color, font, size):
 
 
 # Main logic
+start_time = time.time()  # Initialize start time
 while True:
+    elapsed_time = time.time() - start_time  # Calculate elapsed time
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -164,6 +166,14 @@ while True:
             game_over()
 
     show_score(1, white, 'consolas', 20)
+    
+    # Display elapsed time
+    time_font = pygame.font.SysFont('consolas', 20)
+    time_surface = time_font.render('Time: ' + str(int(elapsed_time)) + 's', True, white)
+    time_rect = time_surface.get_rect()
+    time_rect.midtop = (frame_size_x/2, 30)
+    game_window.blit(time_surface, time_rect)
+    
     # Refresh game screen
     pygame.display.update()
     # Refresh rate
