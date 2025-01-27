@@ -86,8 +86,22 @@ def show_score(choice, color, font, size):
     game_window.blit(score_surface, score_rect)
     # pygame.display.flip()
 
+# Timer
+def show_timer(choice, color, font, size, start_ticks):
+    timer_font = pygame.font.SysFont(font, size)
+    elapsed_time = (pygame.time.get_ticks() - start_ticks) // 1000  # Convert milliseconds to seconds
+    timer_surface = timer_font.render('Time : ' + str(elapsed_time) + 's', True, color)
+    timer_rect = timer_surface.get_rect()
+    if choice == 1:
+        timer_rect.midtop = (frame_size_x/10, 40)
+    else:
+        timer_rect.midtop = (frame_size_x/2, frame_size_y/1.15)
+    game_window.blit(timer_surface, timer_rect)
+
 
 # Main logic
+start_ticks = pygame.time.get_ticks()  # Start time
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -164,6 +178,7 @@ while True:
             game_over()
 
     show_score(1, white, 'consolas', 20)
+    show_timer(1, white, 'consolas', 20, start_ticks)
     # Refresh game screen
     pygame.display.update()
     # Refresh rate
