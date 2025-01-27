@@ -176,9 +176,7 @@ while True:
         if snake_pos[0] == block[0] and snake_pos[1] == block[1]:
             game_over()
 
-    elapsed_time = int(time.time() - start_time)
     show_score(1, white, 'consolas', 20)
-    show_timer(1, white, 'consolas', 20, elapsed_time)
     # Refresh game screen
     pygame.display.update()
     # Refresh rate
