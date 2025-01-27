@@ -4,6 +4,7 @@ Made with PyGame
 """
 
 import pygame, sys, time, random
+from datetime import datetime
 
 
 # Difficulty settings
@@ -58,6 +59,9 @@ change_to = direction
 
 score = 0
 
+# Timer
+start_time = datetime.now()
+
 
 # Game Over
 def game_over():
@@ -68,6 +72,7 @@ def game_over():
     game_window.fill(black)
     game_window.blit(game_over_surface, game_over_rect)
     show_score(0, red, 'times', 20)
+    show_timer(0, red, 'times', 20)
     pygame.display.flip()
     time.sleep(3)
     pygame.quit()
@@ -85,6 +90,18 @@ def show_score(choice, color, font, size):
         score_rect.midtop = (frame_size_x/2, frame_size_y/1.25)
     game_window.blit(score_surface, score_rect)
     # pygame.display.flip()
+
+# Timer
+def show_timer(choice, color, font, size):
+    elapsed_time = datetime.now() - start_time
+    timer_font = pygame.font.SysFont(font, size)
+    timer_surface = timer_font.render('Time : ' + str(elapsed_time.seconds) + 's', True, color)
+    timer_rect = timer_surface.get_rect()
+    if choice == 1:
+        timer_rect.midtop = (frame_size_x/10, 35)
+    else:
+        timer_rect.midtop = (frame_size_x/2, frame_size_y/1.15)
+    game_window.blit(timer_surface, timer_rect)
 
 
 # Main logic
@@ -107,6 +124,9 @@ while True:
             # Esc -> Create event to quit the game
             if event.key == pygame.K_ESCAPE:
                 pygame.event.post(pygame.event.Event(pygame.QUIT))
+
+    # Update and show timer
+    show_timer(1, white, 'consolas', 20)
 
     # Making sure the snake cannot move in the opposite direction instantaneously
     if change_to == 'UP' and direction != 'DOWN':
