@@ -75,7 +75,7 @@ def game_over():
 
 
 # Score
-def show_score(choice, color, font, size):
+def show_score(choice, color, font, size, start_time):
     score_font = pygame.font.SysFont(font, size)
     score_surface = score_font.render('Score : ' + str(score), True, color)
     score_rect = score_surface.get_rect()
@@ -84,6 +84,16 @@ def show_score(choice, color, font, size):
     else:
         score_rect.midtop = (frame_size_x/2, frame_size_y/1.25)
     game_window.blit(score_surface, score_rect)
+    
+    # Calculate elapsed time
+    elapsed_time = int((pygame.time.get_ticks() - start_time) / 1000)
+    time_surface = score_font.render('Time : ' + str(elapsed_time) + 's', True, color)
+    time_rect = time_surface.get_rect()
+    if choice == 1:
+        time_rect.midtop = (frame_size_x/10, 35)
+    else:
+        time_rect.midtop = (frame_size_x/2, frame_size_y/1.15)
+    game_window.blit(time_surface, time_rect)
     # pygame.display.flip()
 
 
