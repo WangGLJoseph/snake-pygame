@@ -57,6 +57,7 @@ direction = 'RIGHT'
 change_to = direction
 
 score = 0
+start_time = time.time()  # Record the start time
 
 
 # Game Over
@@ -74,8 +75,8 @@ def game_over():
     sys.exit()
 
 
-# Score
-def show_score(choice, color, font, size):
+# Score and Timer
+def show_score_and_timer(choice, color, font, size):
     score_font = pygame.font.SysFont(font, size)
     score_surface = score_font.render('Score : ' + str(score), True, color)
     score_rect = score_surface.get_rect()
@@ -84,6 +85,16 @@ def show_score(choice, color, font, size):
     else:
         score_rect.midtop = (frame_size_x/2, frame_size_y/1.25)
     game_window.blit(score_surface, score_rect)
+    
+    # Timer
+    elapsed_time = int(time.time() - start_time)
+    timer_surface = score_font.render('Time : ' + str(elapsed_time) + 's', True, color)
+    timer_rect = timer_surface.get_rect()
+    if choice == 1:
+        timer_rect.midtop = (frame_size_x/10, 35)
+    else:
+        timer_rect.midtop = (frame_size_x/2, frame_size_y/1.15)
+    game_window.blit(timer_surface, timer_rect)
     # pygame.display.flip()
 
 
@@ -163,7 +174,7 @@ while True:
         if snake_pos[0] == block[0] and snake_pos[1] == block[1]:
             game_over()
 
-    show_score(1, white, 'consolas', 20)
+    show_score_and_timer(1, white, 'consolas', 20)
     # Refresh game screen
     pygame.display.update()
     # Refresh rate
