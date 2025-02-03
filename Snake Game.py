@@ -4,6 +4,7 @@ Made with PyGame
 """
 
 import pygame, sys, time, random
+start_time = time.time()
 
 
 # Difficulty settings
@@ -86,9 +87,18 @@ def show_score(choice, color, font, size):
     game_window.blit(score_surface, score_rect)
     # pygame.display.flip()
 
+# Timer
+def show_timer(elapsed_time, color, font, size):
+    timer_font = pygame.font.SysFont(font, size)
+    timer_surface = timer_font.render('Time : ' + str(int(elapsed_time)) + 's', True, color)
+    timer_rect = timer_surface.get_rect()
+    timer_rect.midtop = (frame_size_x/2, 30)
+    game_window.blit(timer_surface, timer_rect)
+
 
 # Main logic
 while True:
+    elapsed_time = time.time() - start_time
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -164,6 +174,7 @@ while True:
             game_over()
 
     show_score(1, white, 'consolas', 20)
+    show_timer(elapsed_time, white, 'consolas', 20)
     # Refresh game screen
     pygame.display.update()
     # Refresh rate
