@@ -4,6 +4,7 @@ Made with PyGame
 """
 
 import pygame, sys, time, random
+import datetime
 
 
 # Difficulty settings
@@ -57,6 +58,7 @@ direction = 'RIGHT'
 change_to = direction
 
 score = 0
+start_time = datetime.datetime.now()
 
 
 # Game Over
@@ -78,17 +80,23 @@ def game_over():
 def show_score(choice, color, font, size):
     score_font = pygame.font.SysFont(font, size)
     score_surface = score_font.render('Score : ' + str(score), True, color)
+    time_surface = score_font.render('Time : ' + str(elapsed_time.seconds) + 's', True, color)
     score_rect = score_surface.get_rect()
+    time_rect = time_surface.get_rect()
     if choice == 1:
         score_rect.midtop = (frame_size_x/10, 15)
+        time_rect.midtop = (frame_size_x/10, 35)
     else:
         score_rect.midtop = (frame_size_x/2, frame_size_y/1.25)
+        time_rect.midtop = (frame_size_x/2, frame_size_y/1.20)
     game_window.blit(score_surface, score_rect)
+    game_window.blit(time_surface, time_rect)
     # pygame.display.flip()
 
 
 # Main logic
 while True:
+    elapsed_time = datetime.datetime.now() - start_time
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
